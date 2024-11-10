@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { RaumComponent } from './raum/raum.component';
+import { RaumComponent } from './components/raum/raum.component';
 
 
 @Component({
