@@ -1,0 +1,15 @@
+<div class="werkstatt-container">
+    <h2>Werkstatt</h2>
+    <button (click)="addRaum()">+ Raum hinzufügen</button>
+    <button (click)="addArbeitsplatz()">+ Arbeitsplatz hinzufügen</button>
+
+  
+    <div *ngFor="let raum of raeume" class="raum-container">
+      <app-raum [reihen]="raum.reihen"></app-raum>
+    </div>
+
+    <div *ngFor="let tisch of tische" class="arbeitsplatz-container">
+        <app-arbeitsplatz [tisch]="tisch"></app-arbeitsplatz>
+      </div>
+  </div>
+  
