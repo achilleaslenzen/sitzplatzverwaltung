@@ -1,0 +1,17 @@
+.arbeitsplatz {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em;
+  border-radius: 8px;
+  text-align: center;
+  transition: background-color 0.3s;
+
+  &.besetzt {
+    background-color: #ffcccc;
+  }
+
+  &:not(.besetzt) {
+    background-color: #ccffcc;
+  }
+}
+

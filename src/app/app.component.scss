@@ -1,0 +1,24 @@
+.raum-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Spaltenaufteilung */
+  grid-auto-rows: auto; /* Zeilenhöhe passt sich automatisch an den Inhalt an */
+  gap: 20px;
+  width: 75%;
+  margin: 0 auto;
+  align-items: start; /* Stellt sicher, dass Räume oben beginnen */
+}
+
+  
+  .cdk-drag-preview {
+    width: auto; /* Stellt sicher, dass die Breite der Originalbreite entspricht */
+    height: auto; /* Stellt sicher, dass die Höhe der Originalhöhe entspricht */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+  }
+  
+  
+  .cdk-drag-placeholder {
+    background-color: #e0e0e0;
+    border: 2px dashed #ccc;
+  }
+  

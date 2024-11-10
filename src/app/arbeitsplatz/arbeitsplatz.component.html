@@ -1,0 +1,9 @@
+<div class="arbeitsplatz" [class.besetzt]="tisch.besetzt">
+    <h3>Tischnummer: {{ tisch.nummer }}</h3>
+    <p>Status: {{ tisch.besetzt ? 'Besetzt' : 'Frei' }}</p>
+    <p *ngIf="tisch.nutzer">Nutzer: {{ tisch.nutzer }}</p>
+    <button (click)="toggleBelegung()">
+      {{ tisch.besetzt ? 'Freigeben' : 'Reservieren' }}
+    </button>
+  </div>
+  
