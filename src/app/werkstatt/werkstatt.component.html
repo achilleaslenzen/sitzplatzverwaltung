@@ -17,6 +17,7 @@
     </div>
 
     <div
+      #tischPool
       class="tisch-pool"
       cdkDropList
       id="tische"
@@ -24,6 +25,7 @@
       (cdkDropListDropped)="dropTisch($event)"
     >
       <div
+        #tisch
         *ngFor="let tisch of tischePool"
         cdkDrag
         [cdkDragData]="tisch"

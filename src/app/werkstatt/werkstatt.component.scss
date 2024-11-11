@@ -34,20 +34,17 @@ button {
 .raum-container {
   width: 100%;
   padding: 15px;
-  border: 2px solid #007bff;
   border-radius: 10px;
-  background-color: #ffffff;
-  transition: background-color 0.3s;
 
   &.cdk-drop-list-dragging {
     background-color: #f0f9ff;
   }
 }
 
-/* Tisch-Pool Styling */
 .tisch-pool {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr); /* Genau 3 Spalten */
+  grid-auto-rows: auto; /* Dynamische Höhe pro Zeile */
   gap: 10px;
   padding: 10px;
   border: 2px solid #ccc;
@@ -62,13 +59,8 @@ button {
 
 /* Tisch Styling */
 .tisch {
-  width: 100px;
-  height: 100px;
-  padding: 10px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: center;
   border: 1px solid #333;
   border-radius: 8px;
   background-color: #ffffff;
