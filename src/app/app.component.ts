@@ -1,18 +1,25 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Raum, RaumComponent } from './components/raum/raum.component';
+import { RaumComponent } from './components/raum/raum.component';
 import { StartseiteComponent } from './startseite/startseite.component';
-
+import { WerkstattComponent } from './werkstatt/werkstatt.component';
+import { ArbeitsplatzComponent } from './components/arbeitsplatz/arbeitsplatz.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule,RaumComponent, DragDropModule, StartseiteComponent],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    RaumComponent,
+    WerkstattComponent,
+    StartseiteComponent,
+    ArbeitsplatzComponent,
+    DragDropModule,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-
-}
+export class AppComponent {}

@@ -1,21 +1,24 @@
 import { Component, Input } from '@angular/core';
-import { Reihe, ReiheComponent } from '../reihe/reihe.component';
+import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
+import {
+  ArbeitsplatzComponent,
+  Tisch,
+} from '../arbeitsplatz/arbeitsplatz.component';
 import { CommonModule } from '@angular/common';
-import { Tisch } from '../arbeitsplatz/arbeitsplatz.component';
-
 
 export interface Raum {
-  name: string
-  reihen: Reihe[]
+  id: number;
+  tische: Tisch[];
 }
 
 @Component({
   selector: 'app-raum',
   standalone: true,
-  imports: [CommonModule ,ReiheComponent],
   templateUrl: './raum.component.html',
-  styleUrl: './raum.component.scss'
+  styleUrls: ['./raum.component.scss'],
+  imports: [CommonModule, ArbeitsplatzComponent, CdkDropList],
 })
 export class RaumComponent {
-  @Input() reihen: Reihe[] = [];
+  @Input() tische: Tisch[] = [];
+  @Input() raumId!: number;
 }
