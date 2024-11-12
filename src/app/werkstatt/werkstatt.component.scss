@@ -1,23 +1,16 @@
-.werkstatt-container {
+.werkstatt-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  height: 100vh;
-  padding: 20px;
   background-color: #f5f5f5;
+}
 
-  &.cdk-drag-preview {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    background-color: #e3f2fd;
-  }
-
-  /* Platzhalter für das Ziel */
-  &.cdk-drag-placeholder {
-    background-color: #bbdefb;
-    border: 2px dashed #0288d1;
-  }
+.werkstatt-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #f5f5f5;
+  overflow: auto;
 }
 
 h2 {
@@ -27,58 +20,15 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Einzelne Räume */
 .raum-container {
-  width: 100%;
-  padding: 15px;
-  border-radius: 10px;
+  position: absolute;
+  width: 150px; /* Standardbreite für jeden Raum */
+  height: 100px; /* Standardhöhe für jeden Raum */
+  border: 1px solid #0288d1;
+  background-color: #e3f2fd;
+  border-radius: 8px;
   cursor: grab;
-
-  &.cdk-drop-list-dragging {
-    background-color: #f0f9ff;
-  }
-}
-
-.tisch-pool {
-  display: inline-grid;
-  grid-template-columns: repeat(3, 1fr); /* Genau 3 Spalten */
-  grid-auto-rows: auto; /* Dynamische Höhe pro Zeile */
-  gap: 10px;
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  background-color: #f0f0f0;
-  transition: background-color 0.3s;
-
-  &.cdk-drop-list-dragging {
-    background-color: #d0e0ff;
-  }
-}
-
-/* Tisch Styling */
-.tisch {
   display: flex;
   justify-content: center;
-  border: 1px solid #333;
-  border-radius: 8px;
-  background-color: #ffffff;
-  cursor: grab;
-  transition: transform 0.3s, box-shadow 0.3s;
-
-  &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Wenn das Element gezogen wird */
-  &.cdk-drag-preview {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    background-color: #e3f2fd;
-  }
-
-  /* Platzhalter für das Ziel */
-  &.cdk-drag-placeholder {
-    background-color: #bbdefb;
-    border: 2px dashed #0288d1;
-  }
+  align-items: center;
 }

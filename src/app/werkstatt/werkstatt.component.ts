@@ -9,17 +9,24 @@ import {
 import {
   CdkDrag,
   CdkDragDrop,
+  CdkDragEnd,
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { Raum, RaumComponent } from '../components/raum/raum.component';
+import { RaumComponent } from '../components/raum/raum.component';
 import {
   ArbeitsplatzComponent,
   Tisch,
 } from '../components/arbeitsplatz/arbeitsplatz.component';
 import { CommonModule } from '@angular/common';
-import { error } from 'console';
 import { ButtonComponent } from '../components/button/button.component';
+import { Reihe } from '../components/reihe/reihe.component';
+
+interface Raum {
+  id: number;
+  reihen: Reihe[]; // Passen Sie dies an die tatsächliche Struktur Ihrer Reihen an
+  position: { x: number; y: number };
+}
 
 @Component({
   selector: 'app-werkstatt',
@@ -36,50 +43,51 @@ import { ButtonComponent } from '../components/button/button.component';
   styleUrls: ['./werkstatt.component.scss'],
 })
 export class WerkstattComponent {
-  @ViewChild('tischPool') tischPoolRef!: ElementRef;
-  @ViewChildren('tisch') tischElements!: QueryList<ElementRef>;
+  @ViewChild('container', { static: true })
+  container!: ElementRef<HTMLDivElement>;
 
   raeume: Raum[] = [];
-  tischePool: Tisch[] = [];
 
-  constructor(private renderer: Renderer2) {
+  constructor() {
     this.addRaum();
   }
 
-  ngAfterViewInit() {
-    this.styleContainerWidth();
-  }
-
   addRaum() {
-    const neuerRaum: Raum = { id: Date.now(), reihen: [{ tische: [] }] };
-    this.raeume.push(neuerRaum);
+    const newRaum: Raum = {
+      id: Date.now(),
+      position: { x: 860, y: 100 },
+      reihen: [{ tische: [] }],
+    };
+    this.raeume = [...this.raeume, newRaum];
+    console.log(this.raeume);
   }
 
-  dropRaum(event: CdkDragDrop<Tisch[]>) {
+  dropRaum(event: CdkDragDrop<Raum[]>) {
     console.log('dropped Raum');
     if (event.previousContainer === event.container) {
       moveItemInArray(this.raeume, event.previousIndex, event.currentIndex);
     }
   }
 
-  private styleContainerWidth() {
-    const firstTisch = this.tischElements.first;
-    if (firstTisch) {
-      const tischWidth = firstTisch.nativeElement.offsetWidth;
+  onDragEnd(event: CdkDragEnd, raum: Raum) {
+    console.log('dragend');
+    const dropPoint = event.dropPoint;
 
-      const gap = 10;
-      const maxWidth = tischWidth * 3 + gap * 2;
+    // Berechne die Container-Grenzen
+    const containerRect = this.container.nativeElement.getBoundingClientRect();
+    const elementRect =
+      event.source.element.nativeElement.getBoundingClientRect();
 
-      this.renderer.setStyle(
-        this.tischPoolRef.nativeElement,
-        'max-width',
-        `${maxWidth}px`
-      );
-      this.renderer.setStyle(
-        this.tischPoolRef.nativeElement,
-        'grid-template-columns',
-        `repeat(auto-fit, minmax(${tischWidth}px, 1fr))`
-      );
-    }
+    // Berechne die maximalen X- und Y-Werte
+    const maxX = containerRect.width - elementRect.width;
+    const maxY = containerRect.height - elementRect.height;
+
+    // Begrenze die Position auf die Container-Grenzen
+    raum.position = {
+      x: Math.max(0, Math.min(dropPoint.x, maxX)),
+      y: Math.max(0, Math.min(dropPoint.y, maxY)),
+    };
+
+    raum.position = { x: dropPoint.x, y: dropPoint.y };
   }
 }
