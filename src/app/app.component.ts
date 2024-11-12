@@ -6,6 +6,7 @@ import { StartseiteComponent } from './startseite/startseite.component';
 import { WerkstattComponent } from './werkstatt/werkstatt.component';
 import { ArbeitsplatzComponent } from './components/arbeitsplatz/arbeitsplatz.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ButtonComponent } from './components/button/button.component';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     StartseiteComponent,
     ArbeitsplatzComponent,
     DragDropModule,
+    ButtonComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
