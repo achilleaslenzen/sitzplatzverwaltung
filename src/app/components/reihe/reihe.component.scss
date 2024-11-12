@@ -1,8 +1,10 @@
 .reihe {
-    display: flex;
-    gap: 20px; /* Abstand zwischen den Tischen */
-    justify-content: center;
-    align-items: center;
-    padding: 10px 0;
-  }
-  
+  display: flex;
+  gap: 20px; /* Abstand zwischen den Tischen */
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  margin-bottom: 10px;
+  padding-bottom: 10px; /* Abstand zwischen der Linie und dem Inhalt */
+  border-bottom: 1px solid #e0e0e0; /* Linie unter dem Header */
+}

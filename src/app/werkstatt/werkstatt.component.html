@@ -1,19 +1,30 @@
-<div class="werkstatt-container">
+<div
+  class="werkstatt-container"
+  cdkDropList
+  id="werkstatt"
+  [cdkDropListConnectedTo]="['raeume']"
+  (cdkDropListDropped)="dropRaum($event)"
+>
   <h2>Werkstatt</h2>
-  <button (click)="addRaum()">+ Raum hinzufügen</button>
-  <button (click)="addArbeitsplatz()">+ Arbeitsplatz hinzufügen</button>
+  <app-button text="+ Raum hinzufügen" (clicked)="addRaum()"></app-button>
+  <app-button
+    text="+ Arbeitsplatz hinzufügen"
+    (clicked)="addArbeitsplatz()"
+  ></app-button>
 
   <div>
     <div
       *ngFor="let raum of raeume"
       class="raum-container"
+      cdkDrag
+      [cdkDragData]="raum"
       cdkDropList
       id="raeume"
       [attr.data-raum-id]="raum.id"
-      [cdkDropListConnectedTo]="['tische']"
+      [cdkDropListConnectedTo]="['werkstatt']"
       (cdkDropListDropped)="dropTisch($event)"
     >
-      <app-raum [tische]="raum.tische" [raumId]="raum.id"></app-raum>
+      <app-raum [reihen]="raum.reihen" [raumId]="raum.id"></app-raum>
     </div>
 
     <div

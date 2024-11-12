@@ -1,4 +1,20 @@
-<div class="reihe">
-  <app-arbeitsplatz *ngFor="let tisch of reihe.tische" [tisch]="tisch"></app-arbeitsplatz>
+<div
+  class="reihe"
+  cdkDropList
+  id="reihe"
+  [cdkDropListConnectedTo]="['platz']"
+  (cdkDropListDropped)="dropTisch($event)"
+>
+  <app-button
+    text="+ Arbeitsplatz hinzufügen"
+    (clicked)="addArbeitsplatz()"
+  ></app-button>
+  <app-arbeitsplatz
+    id="platz"
+    cdkDrag
+    [cdkDragData]="tisch"
+    cdkDropList
+    *ngFor="let tisch of tische"
+    [tisch]="tisch"
+  ></app-arbeitsplatz>
 </div>
-  

@@ -1,7 +1,19 @@
-<div class="raum-box">
-  <h3>Raum {{ raumId }}</h3>
-  <app-arbeitsplatz
-    *ngFor="let tisch of tische"
-    [tisch]="tisch"
-  ></app-arbeitsplatz>
+<div
+  class="raum-box"
+  cdkDropList
+  id="raeume"
+  [cdkDropListConnectedTo]="['reihen']"
+  (cdkDropListDropped)="dropTisch($event)"
+>
+  <div class="header-sidebar-container">
+    <div class="raum-header">
+      <app-button text="+ Reihe hinzufügen" (clicked)="addReihe()"></app-button>
+    </div>
+    <div class="reihe-sidebar">
+      <app-reihe
+        *ngFor="let reihe of reihen"
+        [tische]="reihe.tische"
+      ></app-reihe>
+    </div>
+  </div>
 </div>

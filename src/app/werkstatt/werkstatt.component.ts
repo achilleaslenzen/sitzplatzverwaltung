@@ -6,13 +6,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDropList,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { Raum, RaumComponent } from '../components/raum/raum.component';
 import {
   ArbeitsplatzComponent,
@@ -20,6 +14,7 @@ import {
 } from '../components/arbeitsplatz/arbeitsplatz.component';
 import { CommonModule } from '@angular/common';
 import { error } from 'console';
+import { ButtonComponent } from '../components/button/button.component';
 
 @Component({
   selector: 'app-werkstatt',
@@ -28,6 +23,7 @@ import { error } from 'console';
     CommonModule,
     RaumComponent,
     ArbeitsplatzComponent,
+    ButtonComponent,
     CdkDrag,
     CdkDropList,
   ],
@@ -42,7 +38,7 @@ export class WerkstattComponent {
   tischePool: Tisch[] = [];
 
   constructor(private renderer: Renderer2) {
-    this.addArbeitsplatz();
+    this.addRaum();
   }
 
   ngAfterViewInit() {
@@ -50,7 +46,7 @@ export class WerkstattComponent {
   }
 
   addRaum() {
-    const neuerRaum: Raum = { id: Date.now(), tische: [] };
+    const neuerRaum: Raum = { id: Date.now(), reihen: [{ tische: [] }] };
     this.raeume.push(neuerRaum);
   }
 
@@ -66,28 +62,18 @@ export class WerkstattComponent {
     this.tischePool.push(neuerTisch);
   }
 
-  dropTisch(event: CdkDragDrop<Tisch[]>) {
-    console.log('dropped Tisch');
+  dropRaum(event: CdkDragDrop<Tisch[]>) {
+    console.log('dropped Raum');
     if (
-      event.previousContainer.id === 'tische' &&
-      event.container.id === 'raeume'
+      event.previousContainer.id === 'raeume' &&
+      event.container.id === 'werkstatt'
     ) {
       {
-        const tisch = event.item.data;
-
-        const raumId = parseInt(
-          event.container.element.nativeElement.getAttribute('data-raum-id') ||
-            '0',
-          10
-        );
-        const raum = this.raeume.find((r) => r.id === raumId);
-        if (raum) {
-          raum.tische.push(tisch);
-          this.tischePool = this.tischePool.filter((t) => t !== tisch);
-        }
       }
     }
   }
+
+  dropTisch(event: CdkDragDrop<Tisch[]>) {}
 
   private styleContainerWidth() {
     const firstTisch = this.tischElements.first;
