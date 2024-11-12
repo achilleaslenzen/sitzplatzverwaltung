@@ -6,7 +6,12 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { Raum, RaumComponent } from '../components/raum/raum.component';
 import {
   ArbeitsplatzComponent,
@@ -50,30 +55,12 @@ export class WerkstattComponent {
     this.raeume.push(neuerRaum);
   }
 
-  addArbeitsplatz() {
-    if (this.tischePool.length == 6) {
-      return; //TODO: display error
-    }
-
-    const neuerTisch: Tisch = {
-      nummer: this.tischePool.length + 1,
-      besetzt: false,
-    };
-    this.tischePool.push(neuerTisch);
-  }
-
   dropRaum(event: CdkDragDrop<Tisch[]>) {
     console.log('dropped Raum');
-    if (
-      event.previousContainer.id === 'raeume' &&
-      event.container.id === 'werkstatt'
-    ) {
-      {
-      }
+    if (event.previousContainer === event.container) {
+      moveItemInArray(this.raeume, event.previousIndex, event.currentIndex);
     }
   }
-
-  dropTisch(event: CdkDragDrop<Tisch[]>) {}
 
   private styleContainerWidth() {
     const firstTisch = this.tischElements.first;

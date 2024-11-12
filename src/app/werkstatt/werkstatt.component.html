@@ -7,10 +7,6 @@
 >
   <h2>Werkstatt</h2>
   <app-button text="+ Raum hinzufügen" (clicked)="addRaum()"></app-button>
-  <app-button
-    text="+ Arbeitsplatz hinzufügen"
-    (clicked)="addArbeitsplatz()"
-  ></app-button>
 
   <div>
     <div
@@ -20,30 +16,8 @@
       [cdkDragData]="raum"
       cdkDropList
       id="raeume"
-      [attr.data-raum-id]="raum.id"
-      [cdkDropListConnectedTo]="['werkstatt']"
-      (cdkDropListDropped)="dropTisch($event)"
     >
       <app-raum [reihen]="raum.reihen" [raumId]="raum.id"></app-raum>
-    </div>
-
-    <div
-      #tischPool
-      class="tisch-pool"
-      cdkDropList
-      id="tische"
-      [cdkDropListConnectedTo]="['raeume']"
-      (cdkDropListDropped)="dropTisch($event)"
-    >
-      <div
-        #tisch
-        *ngFor="let tisch of tischePool"
-        cdkDrag
-        [cdkDragData]="tisch"
-        class="tisch"
-      >
-        <app-arbeitsplatz [tisch]="tisch"></app-arbeitsplatz>
-      </div>
     </div>
   </div>
 </div>
