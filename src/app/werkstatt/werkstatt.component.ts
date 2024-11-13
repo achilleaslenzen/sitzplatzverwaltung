@@ -1,32 +1,19 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   QueryList,
-  Renderer2,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDragEnd,
-  CdkDropList,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
-import { RaumComponent } from '../components/raum/raum.component';
+import { Raum, RaumComponent } from '../components/raum/raum.component';
 import {
   ArbeitsplatzComponent,
   Tisch,
 } from '../components/arbeitsplatz/arbeitsplatz.component';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../components/button/button.component';
-import { Reihe } from '../components/reihe/reihe.component';
-
-interface Raum {
-  id: number;
-  reihen: Reihe[]; // Passen Sie dies an die tatsächliche Struktur Ihrer Reihen an
-  position: { x: number; y: number };
-}
+import interact from 'interactjs';
 
 @Component({
   selector: 'app-werkstatt',
@@ -36,58 +23,67 @@ interface Raum {
     RaumComponent,
     ArbeitsplatzComponent,
     ButtonComponent,
-    CdkDrag,
-    CdkDropList,
   ],
   templateUrl: './werkstatt.component.html',
   styleUrls: ['./werkstatt.component.scss'],
 })
-export class WerkstattComponent {
+export class WerkstattComponent implements AfterViewInit {
   @ViewChild('container', { static: true })
   container!: ElementRef<HTMLDivElement>;
 
+  @ViewChildren('raum') raumElements!: QueryList<ElementRef>;
+
   raeume: Raum[] = [];
 
-  constructor() {
-    this.addRaum();
+  constructor() {}
+
+  ngAfterViewInit(): void {
+    this.raumElements.changes.subscribe(() => {
+      this.raumElements.forEach((raumElement) =>
+        this.initializeInteract(raumElement)
+      );
+    });
   }
 
   addRaum() {
     const newRaum: Raum = {
       id: Date.now(),
-      position: { x: 860, y: 100 },
       reihen: [{ tische: [] }],
     };
     this.raeume = [...this.raeume, newRaum];
     console.log(this.raeume);
   }
 
-  dropRaum(event: CdkDragDrop<Raum[]>) {
-    console.log('dropped Raum');
-    if (event.previousContainer === event.container) {
-      moveItemInArray(this.raeume, event.previousIndex, event.currentIndex);
-    }
+  initializeInteract(elementRef: ElementRef) {
+    interact(elementRef.nativeElement).draggable({
+      inertia: true,
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: 'self',
+          endOnly: true,
+        }),
+      ],
+      autoScroll: true,
+      listeners: {
+        move: this.dragMoveListener,
+
+        end: this.dragEndListener,
+      },
+    });
   }
 
-  onDragEnd(event: CdkDragEnd, raum: Raum) {
-    console.log('dragend');
-    const dropPoint = event.dropPoint;
+  dragMoveListener(event: any) {
+    const target = event.target;
+    const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+    const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-    // Berechne die Container-Grenzen
-    const containerRect = this.container.nativeElement.getBoundingClientRect();
-    const elementRect =
-      event.source.element.nativeElement.getBoundingClientRect();
+    target.style.transform = `translate(${x}px, ${y}px)`;
 
-    // Berechne die maximalen X- und Y-Werte
-    const maxX = containerRect.width - elementRect.width;
-    const maxY = containerRect.height - elementRect.height;
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
 
-    // Begrenze die Position auf die Container-Grenzen
-    raum.position = {
-      x: Math.max(0, Math.min(dropPoint.x, maxX)),
-      y: Math.max(0, Math.min(dropPoint.y, maxY)),
-    };
-
-    raum.position = { x: dropPoint.x, y: dropPoint.y };
+  dragEndListener(event: any) {
+    console.log('Dragging ended', event);
   }
 }
