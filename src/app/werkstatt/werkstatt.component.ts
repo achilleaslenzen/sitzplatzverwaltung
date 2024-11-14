@@ -55,21 +55,56 @@ export class WerkstattComponent implements AfterViewInit {
   }
 
   initializeInteract(elementRef: ElementRef) {
-    interact(elementRef.nativeElement).draggable({
-      inertia: true,
-      modifiers: [
-        interact.modifiers.restrictRect({
-          restriction: 'self',
-          endOnly: true,
-        }),
-      ],
-      autoScroll: true,
-      listeners: {
-        move: this.dragMoveListener,
+    interact(elementRef.nativeElement)
+      .resizable({
+        edges: { left: true, right: true, bottom: true, top: true },
+        modifiers: [
+          interact.modifiers.restrictEdges({
+            outer: 'parent',
+          }),
+          interact.modifiers.restrictSize({
+            min: { width: 100, height: 50 },
+          }),
+        ],
+        listeners: {
+          move: this.resizeMoveListener,
+        },
+        inertia: true,
+      })
+      .draggable({
+        inertia: true,
+        modifiers: [
+          interact.modifiers.restrictRect({
+            restriction: 'self',
+            endOnly: true,
+          }),
+          interact.modifiers.restrictEdges({
+            outer: 'parent',
+          }),
+        ],
+        autoScroll: true,
+        listeners: {
+          move: this.dragMoveListener,
 
-        end: this.dragEndListener,
-      },
-    });
+          end: this.dragEndListener,
+        },
+      });
+  }
+
+  resizeMoveListener(event: any) {
+    const target = event.target;
+    let x = parseFloat(target.getAttribute('data-x')) || 0;
+    let y = parseFloat(target.getAttribute('data-y')) || 0;
+
+    target.style.width = event.rect.width + 'px';
+    target.style.height = event.rect.height + 'px';
+
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+
+    target.style.transform = `translate(${x}px, ${y}px)`;
+    target.setAttribute('data-x', x.toString());
+    target.setAttribute('data-y', y.toString());
   }
 
   dragMoveListener(event: any) {
