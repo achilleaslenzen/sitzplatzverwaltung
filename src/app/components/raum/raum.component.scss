@@ -10,23 +10,3 @@
   width: 100%;
   height: 100%;
 }
-
-.header-sidebar-container {
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #e0e0e0; /* Der durchgehende Strich rechts */
-  padding-right: 10px;
-  margin-right: 20px;
-}
-
-.raum-header {
-  margin-bottom: 10px;
-  border-bottom: 1px solid #e0e0e0; /* Der durchgehende Strich rechts */
-  padding-bottom: 10px;
-  justify-content: center;
-}
-.reihe-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
