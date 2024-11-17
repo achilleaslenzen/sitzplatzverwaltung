@@ -135,11 +135,29 @@ export class WerkstattComponent implements AfterViewInit {
     const raumId = raumElement.getAttribute('data-id');
 
     const arbeitsplatzElement = event.relatedTarget;
-    const tischNummer = arbeitsplatzElement.getAttribute('data-nummer');
+
+    const raumRect = raumElement.getBoundingClientRect();
+    const arbeitsplatzRect = arbeitsplatzElement.getBoundingClientRect();
+
+    raumElement.appendChild(arbeitsplatzElement);
+
+    const relativeX = arbeitsplatzRect.left - raumRect.left;
+    const relativeY = arbeitsplatzRect.top - raumRect.top;
+
+    arbeitsplatzElement.style.top = `${relativeY}px`;
+    arbeitsplatzElement.style.left = `${relativeX}px`;
+    arbeitsplatzElement.style.transform = '';
+    arbeitsplatzElement.setAttribute('data-x', '0');
+    arbeitsplatzElement.setAttribute('data-y', '0');
+
+    console.log(
+      `Arbeitsplatz wurde in den Raum verschoben und zentriert: (${relativeX}, ${relativeY})`
+    );
 
     // Finde den Raum in der Liste
     const raum = this.raeume.find((r) => r.id === parseInt(raumId, 10));
     if (raum) {
+      const tischNummer = arbeitsplatzElement.getAttribute('data-nummer');
       const neuerTisch: Tisch = {
         nummer: parseInt(tischNummer, 10),
         besetzt: false,
