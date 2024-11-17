@@ -1,9 +1,27 @@
 <div class="werkstatt-header">
   <h2>Werkstatt</h2>
   <app-button text="+ Raum hinzufügen" (clicked)="addRaum()"></app-button>
+  <app-button
+    text="+ Arbeitsplatz hinzufügen"
+    (clicked)="addArbeitsplatz()"
+  ></app-button>
 </div>
 <div class="werkstatt-container" #container>
-  <div *ngFor="let raum of raeume" class="raum-container" #raum id="raeume">
+  <div
+    *ngFor="let raum of raeume"
+    class="raum-container"
+    #raum
+    id="raeume"
+    [attr.data-id]="raum.id"
+  >
     <app-raum [reihen]="raum.reihen" [raumId]="raum.id"></app-raum>
+  </div>
+  <div
+    *ngFor="let tisch of tische"
+    class="arbeitsplatz-container"
+    #arbeitsplatz
+    [attr.data-nummer]="tisch.nummer"
+  >
+    <app-arbeitsplatz [tisch]="tisch"></app-arbeitsplatz>
   </div>
 </div>
